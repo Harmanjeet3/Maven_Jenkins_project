@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    stages {
+        stage('Getting Git') {
+            steps {
+                git branch: 'master', url: 'https://github.com/Harmanjeet3/Maven_Jenkins_project.git'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo "Test"
+            }
+        }
+        stage('Maven Package') {
+            steps {
+                sh 'mvn -f Hello_app_maven/pom.xml package'
+            }
+        }
+        stage('Ending Process') {
+            steps {
+                echo "End"
+            }
+        }
+    }
+}
