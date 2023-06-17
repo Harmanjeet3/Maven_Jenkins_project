@@ -16,6 +16,17 @@ pipeline {
                 sh 'mvn -f Hello_app_maven/pom.xml package'
             }
         }
+        stage('deployemnt') {
+            steps {
+                echo "End"
+                sh'''
+                cp /var/lib/jenkins/workspace/pipeline_job/Hello_app_maven/target/Hello_app_maven.war /opt/webapps/
+                sudo /opt/bin/startup.sh
+
+                
+                '''
+            }
+        }
         stage('Ending Process') {
             steps {
                 echo "End"
