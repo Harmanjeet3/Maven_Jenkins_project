@@ -20,9 +20,9 @@ pipeline {
             steps {
                 echo "End"
                 sh'''
-                cp /var/lib/jenkins/workspace/pipeline_job/Hello_app_maven/target/Hello_app_maven.war /opt/webapps/
-                sudo /opt/bin/startup.sh
-
+                ls /var/lib/jenkins/workspace/pipeline_job/
+                sudo cp /var/lib/jenkins/workspace/pipeline_job/Hello_app_maven/target/Hello_app_maven.war /opt/webapps/
+                sudo /opt/bin/startup.sh 
                 
                 '''
             }
