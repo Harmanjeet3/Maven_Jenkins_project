@@ -8,5 +8,6 @@
 <h2>Auto deploy on tomcat </h2>
 <h2>AAAAAAAAA</h2>
 <h2>Auto deploy works properly</h2>
+<h2>Check ssh for git and war file in git</h2>
 </body>
 </html>

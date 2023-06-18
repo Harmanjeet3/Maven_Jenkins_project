@@ -27,6 +27,21 @@ pipeline {
                 '''
             }
         }
+        stage('Git Push') {
+            steps {
+                
+                sh'''
+                
+                sudo cp /var/lib/jenkins/workspace/pipeline_job/Hello_app_maven/target/Hello_app_maven.war folder
+                sudo mv Hello_app_maven.war Hello_war$(date +%Y%m%d%H%M%S).war
+                sudo git add folder
+                sudo git commit -m "$(date +%Y%m%d%H%M%S) war "
+                sudo git push -u origin main
+                
+                
+                '''
+            }
+        }
         stage('Ending Process') {
             steps {
                 echo "End"
