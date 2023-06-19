@@ -9,5 +9,6 @@
 <h2>AAAAAAAAA</h2>
 <h2>Auto deploy works properly</h2>
 <h2>Check ssh for git and war file in git</h2>
+<h3>Push war files </h3>
 </body>
 </html>

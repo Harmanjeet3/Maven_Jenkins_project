@@ -28,20 +28,32 @@ pipeline {
             }
         }
         stage('Git Push') {
-            steps {
-                
-                sh'''
-                
-                sudo cp /var/lib/jenkins/workspace/pipeline_job/Hello_app_maven/target/Hello_app_maven.war folder
-                sudo mv Hello_app_maven.war Hello_war$(date +%Y%m%d%H%M%S).war
-                sudo git add folder
-                sudo git commit -m "$(date +%Y%m%d%H%M%S) war "
-                sudo git push -u origin main
-                
-                
-                '''
-            }
+          steps {
+            
+            sh '''
+            pwd
+            sudo cp /var/lib/jenkins/workspace/pipeline_job/Hello_app_maven/target/Hello_app_maven.war /var/lib/jenkins/workspace/new_war
+            echo "Moved"
+            whoami
+            cd ..
+            cd new_war
+            pwd
+            sudo mv Hello_app_maven.war Hello_war$(date +%Y%m%d%H%M%S).war
+            git remote set-url origin https://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@github.com/Harmanjeet3/new_war.git
+            sudo git add .
+            sudo git commit -m "$(date +%Y%m%d%H%M%S) war ss"
+            sudo git status
+            sudo git remote -v
+            echo "before push"
+            whoami
+            git status
+            
+            git push origin master
+            echo "after push"
+           '''
+          }
         }
+        
         stage('Ending Process') {
             steps {
                 echo "End"
