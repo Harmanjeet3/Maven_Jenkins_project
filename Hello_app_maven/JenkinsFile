@@ -39,7 +39,7 @@ pipeline {
             cd new_war
             pwd
             sudo mv Hello_app_maven.war Hello_war$(date +%Y%m%d%H%M%S).war
-            git remote set-url origin https://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@github.com/Harmanjeet3/new_war.git
+            git remote set-url origin https://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@github.com/Harmanjeet3/new_war.git
             sudo git add .
             sudo git commit -m "$(date +%Y%m%d%H%M%S) war push"
             sudo git status
