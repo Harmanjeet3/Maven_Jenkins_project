@@ -1,63 +1,78 @@
+String gitrepoPull ="https://github.com/Harmanjeet3/Maven_Jenkins_project.git"
+String branchPull = "master"
+String pomFilePath ="Hello_app_maven/pom.xml"
+String warFilePath ="/var/lib/jenkins/workspace/pipeline_job/Hello_app_maven/target/Hello_app_maven.war"
+String tomcatWorkspace = "/opt/webapps/"
+String pushRepoWorkspace = "/var/lib/jenkins/workspace/new_war"
+def moveTo(warFile,tomcatdir){
+    sh 'sudo cp '+warFile+' '+tomcatdir+''
+    
+}
+def gitTokenAccess(token,ur){
+    sh'sudo git remote set-url origin https://'+token+'@github.com/'+ur+''
+    
+}
+def mov(){
+    sh 'cd ..'
+    sh 'cd new_war'
+   
+}
+def push(){
+    sh'''
+    sudo git remote set-url origin https://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@github.com/Harmanjeet3/new_war.git
+    sudo git add .
+    sudo git commit -m "$current_time war push"
+    git push origin master
+    '''
+}
+def pushTorepo(){
+    
+    mov()
+    sh 'sudo mv Hello_app_maven.war Hello_war$current_time.war'
+    push()
+}
+def tomCAt(warFile,tomcatdir){
+    moveTo(warFile,tomcatdir)
+    sh 'sudo /opt/bin/startup.sh'
+}
+def gitPull(branc,ur){
+    echo "$branc"
+    echo "$ur"
+    git branch: branc ,url: ur
+}
+
+def buildMaking(rr) {
+    sh 'mvn -f '+rr+' package'
+}
+
 pipeline {
     agent any
     stages {
         stage('Getting Git') {
             steps {
-                git branch: 'master', url: 'https://github.com/Harmanjeet3/Maven_Jenkins_project.git'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo "Test"
-            }
-        }
-        stage('Maven Package') {
-            steps {
-                sh 'mvn -f Hello_app_maven/pom.xml package'
-            }
-        }
-        stage('deployemnt') {
-            steps {
-                echo "End"
-                sh'''
-                ls /var/lib/jenkins/workspace/pipeline_job/
-                sudo cp /var/lib/jenkins/workspace/pipeline_job/Hello_app_maven/target/Hello_app_maven.war /opt/webapps/
-                sudo /opt/bin/startup.sh 
                 
-                '''
+                gitPull(branchPull,gitrepoPull)
+            }
+            
+        }
+        
+        stage('maven '){
+            steps{
+                buildMaking(pomFilePath)
+            }
+        }
+        stage('deploy'){
+            steps{
+                tomCAt(warFilePath,tomcatWorkspace)
             }
         }
         stage('Git Push') {
           steps {
+              
+            sh 'current_time=$(date +%Y%m%d%H%M%S)'  
+            moveTo(warFilePath,pushRepoWorkspace)
             
-            sh '''
-            pwd
-            sudo cp /var/lib/jenkins/workspace/pipeline_job/Hello_app_maven/target/Hello_app_maven.war /var/lib/jenkins/workspace/new_war
-            echo "Moved"
-            whoami
-            cd ..
-            cd new_war
-            pwd
-            sudo mv Hello_app_maven.war Hello_war$(date +%Y%m%d%H%M%S).war
-            git remote set-url origin https://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@github.com/Harmanjeet3/new_war.git
-            sudo git add .
-            sudo git commit -m "$(date +%Y%m%d%H%M%S) war push"
-            sudo git status
-            sudo git remote -v
-            echo "before push"
-            whoami
-            git status
-            
-            git push origin master
-            echo "after push"
-           '''
           }
-        }
-        
-        stage('Ending Process') {
-            steps {
-                echo "End"
-            }
         }
     }
 }
