@@ -4,6 +4,7 @@
 <h2>Hello</h2>
 <h2>Checking the deployement in new machine </h2>
 <h2>commit from git part2</h2>
+<h2> docker is added </h2>
 
 </body>
 </html>
